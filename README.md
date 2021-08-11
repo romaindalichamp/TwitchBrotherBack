@@ -5,7 +5,7 @@ Backend API to save Twitch datas in a Redis Database
 - SonarCloud report: https://sonarcloud.io/dashboard?id=fukakai_TwitchBrotherBack
 - production URL: {heroku}
 
-## Run
+## Run in local
 Deploy: `mvn spring-boot:run` on port 8080
 SonarQube Analysis: `sonar-scanner` (with SONAR_TOKEN environment variable) 
 
