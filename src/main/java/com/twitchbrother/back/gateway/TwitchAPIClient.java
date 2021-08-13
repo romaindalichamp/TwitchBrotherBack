@@ -75,8 +75,12 @@ public class TwitchAPIClient {
       LOG.trace("Poll Streams to: {}", url);
       return jsonMapper.readValue(result.toCompletableFuture().get().getResponseBody(),
           TwitchStreamsModel.class);
-    } catch (InterruptedException | ExecutionException | JsonProcessingException | MalformedURLException e) {
+    } catch (InterruptedException e){
       LOG.info("Interrupted! {}", e);
+      Thread.currentThread().interrupt();
+      throw new RuntimeException(e);
+    } catch(ExecutionException | JsonProcessingException | MalformedURLException e) {
+      LOG.info("Exception {}", e);
       throw new RuntimeException(e);
     }
   }
