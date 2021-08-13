@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.twitchbrother.back.TwitchConfigurationProperties;
 import com.twitchbrother.back.model.TwitchStreamsModel;
+import com.twitchbrother.back.service.TwitchService;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
@@ -35,6 +36,7 @@ public class TwitchAPIClient {
   private final String afterParameter;
 
   public TwitchAPIClient(TwitchConfigurationProperties twitchConfigurationProperties) {
+
     this.twitchConfigurationProperties = twitchConfigurationProperties;
     this.authorizationKey = twitchConfigurationProperties.getApi().getAuthorization().getKey();
     this.authorizationValue = twitchConfigurationProperties.getApi().getAuthorization().getValue();
@@ -73,18 +75,9 @@ public class TwitchAPIClient {
       LOG.trace("Poll Streams to: {}", url);
       return jsonMapper.readValue(result.toCompletableFuture().get().getResponseBody(),
           TwitchStreamsModel.class);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-      throw new RuntimeException();
-    } catch (ExecutionException e) {
-      e.printStackTrace();
-      throw new RuntimeException();
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-      throw new RuntimeException();
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-      throw new RuntimeException();
+    } catch (InterruptedException | ExecutionException | JsonProcessingException | MalformedURLException e) {
+      LOG.info("Interrupted! {}", e);
+      throw new RuntimeException(e);
     }
   }
 }

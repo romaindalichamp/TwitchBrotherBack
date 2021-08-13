@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TwitchService {
-
   private static final Logger LOG = LoggerFactory.getLogger(TwitchService.class);
 
   private static final int MAXIMUM_PAGES_BY_THREAD = 25;
