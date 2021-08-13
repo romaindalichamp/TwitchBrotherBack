@@ -47,6 +47,14 @@ public class TwitchClient {
         .createGameListRequestParameters();
     afterParameter = this.twitchConfigurationProperties.getApi().getHelix().getStreams()
         .getAfterParameter();
+
+    //TODO: Twitch Api Connection with Authorization Token Refresh
+    //TODO: Proper Runtime Exceptions ==> AOP for reconnection ?
+    //TODO: Redis database connection to save specific datas https://dashboard.heroku.com/provision-addon?addonServiceId=5bbf672c-07f6-49c2-9c16-f1dcb96784db&planId=67756275-86b8-4edc-80c5-d543f9df7d44
+    //TODO: Vault to save secrets https://dashboard.heroku.com/new?button-url=https%3A%2F%2Felements.heroku.com%2F&template=https%3A%2F%2Fgithub.com%2Fpallavkothari%2Fvault
+    //TODO: WEB SOCKET
+    //TODO: ANGULAR
+    //TODO: TUs
   }
 
   public TwitchStreamsModel pollHelixStream(final String cursor) {
