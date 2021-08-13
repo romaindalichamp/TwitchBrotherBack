@@ -11,7 +11,7 @@ import lombok.Data;
 @Builder
 public class StreamDto {
 
-  private String gameList;
+  private List<String> gameList;
   private Integer totalViewers;
   private List<StreamDataDto> data;
 }

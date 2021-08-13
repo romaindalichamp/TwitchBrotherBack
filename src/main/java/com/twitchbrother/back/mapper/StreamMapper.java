@@ -5,6 +5,7 @@ import com.twitchbrother.back.dto.StreamDto;
 import com.twitchbrother.back.model.TwitchStreamsDataModel;
 import com.twitchbrother.back.model.TwitchStreamsModel;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,8 +25,8 @@ public interface StreamMapper {
   }
 
   @Named("gameList")
-  default String gameList(ArrayList<TwitchStreamsDataModel> data) {
+  default List<String> gameList(ArrayList<TwitchStreamsDataModel> data) {
     return data.stream().map(TwitchStreamsDataModel::getGame_name).distinct()
-        .collect(Collectors.toList()).toString();
+        .collect(Collectors.toList());
   }
 }
