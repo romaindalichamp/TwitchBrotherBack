@@ -1,16 +1,17 @@
 package com.twitchbrother.back.service;
 
 import com.twitchbrother.back.TwitchConfigurationProperties;
-import com.twitchbrother.back.gateway.TwitchClient;
+import com.twitchbrother.back.gateway.TwitchAPIClient;
+import com.twitchbrother.back.mapper.StreamMapper;
 import com.twitchbrother.back.model.TwitchStreamsDataModel;
 import com.twitchbrother.back.model.TwitchStreamsModel;
 import com.twitchbrother.back.util.TwitchUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TwitchService {
@@ -19,19 +20,28 @@ public class TwitchService {
 
   private static final int MAXIMUM_PAGES_BY_THREAD = 25;
   private final TwitchConfigurationProperties twitchConfigurationProperties;
-  private final TwitchClient twitchClient;
-  private final Integer twitchThrottle;
-  private TwitchStreamsModel twitchStreamsModel = new TwitchStreamsModel();
-  private int numberOfRequestForPagination;
+  private final SimpMessageSendingOperations simpleSimpMessageSendingOperations;
+  private final WsOperationsService wsOperationsService;
+  private final TwitchAPIClient twitchAPIClient;
+  private final StreamMapper streamMapper;
+  private final float twitchThrottle;
+  private float numberOfRequestForPagination;
 
-  public TwitchService(TwitchConfigurationProperties twitchConfigurationProperties,
-      TwitchClient twitchClient) {
+  public TwitchService(SimpMessageSendingOperations simpleSimpMessageSendingOperations,
+      TwitchConfigurationProperties twitchConfigurationProperties,
+      WsOperationsService wsOperationsService,
+      TwitchAPIClient twitchAPIClient, StreamMapper streamMapper) {
+
     this.twitchConfigurationProperties = twitchConfigurationProperties;
-    this.twitchClient = twitchClient;
+    this.simpleSimpMessageSendingOperations = simpleSimpMessageSendingOperations;
+    this.wsOperationsService = wsOperationsService;
+    this.twitchAPIClient = twitchAPIClient;
+    this.streamMapper = streamMapper;
 
-    twitchThrottle = this.twitchConfigurationProperties.getApi().getHelix().getStreams()
-        .getThrottle();
-    pollHelixStreamsWithThread();
+    twitchThrottle =
+        this.twitchConfigurationProperties.getApi().getHelix().getStreams().getThrottle();
+
+    this.pollHelixStreamsWithThread();
   }
 
   /**
@@ -40,33 +50,41 @@ public class TwitchService {
   public void pollHelixStreamsWithThread() {
     Thread thread = new Thread(() -> {
       while (!Thread.currentThread().isInterrupted()) {
-        twitchStreamsModel = new TwitchStreamsModel();
 
-        this.pollHelixStreams();
+        TwitchStreamsModel twitchStreamsModel = this.pollHelixStreams();
 
         try {
-          Thread.sleep(TwitchUtils.calculatethrottleAfterEveryRequest(numberOfRequestForPagination,
-              twitchThrottle));
+          Thread.sleep((long)
+              TwitchUtils.calculatethrottleAfterEveryRequest(
+                  numberOfRequestForPagination, twitchThrottle));
         } catch (InterruptedException e) {
           LOG.warn("Interrupted ! {}", e.toString());
           Thread.currentThread().interrupt();
         }
+
+        this.convertAndSendData(twitchStreamsModel);
       }
     });
     thread.start();
   }
 
+  private void convertAndSendData(TwitchStreamsModel twitchStreamsModel) {
+    this.wsOperationsService.sendMessageOverWs("/streams/progress",streamMapper.map(twitchStreamsModel));
+  }
+
   /**
    * Poll multiple games on Twitch API on a maximum of {@value TwitchService#MAXIMUM_PAGES_BY_THREAD}
    * pages
+   * @return
    */
-  private void pollHelixStreams() {
+  private TwitchStreamsModel pollHelixStreams() {
+    TwitchStreamsModel twitchStreamsModel = new TwitchStreamsModel();
     String cursor = "";
     this.numberOfRequestForPagination = 0;
-    do {
-      TwitchStreamsModel result = twitchClient.pollHelixStream(cursor);
-      cursor = result.getPagination().getCursor();
 
+    do {
+      TwitchStreamsModel result = twitchAPIClient.pollHelixStream(cursor);
+      cursor = result.getPagination().getCursor();
       numberOfRequestForPagination++;
       twitchStreamsModel.getData().addAll(result.getData());
     } while (Objects.nonNull(cursor) && numberOfRequestForPagination < MAXIMUM_PAGES_BY_THREAD);
@@ -77,5 +95,7 @@ public class TwitchService {
     LOG.info("Total number of viewers: {}",
         twitchStreamsModel.getData().stream().map(TwitchStreamsDataModel::getViewer_count)
             .mapToInt(Integer::intValue).sum());
+
+    return twitchStreamsModel;
   }
 }

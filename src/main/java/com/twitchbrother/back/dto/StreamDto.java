@@ -1,5 +1,6 @@
 package com.twitchbrother.back.dto;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,9 +9,9 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class GamePollDto {
+public class StreamDto {
 
-  private Integer gameId;
-  private String gameName;
+  private String gameList;
   private Integer totalViewers;
+  private List<StreamDataDto> data;
 }

@@ -4,6 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.twitchbrother.back.TwitchConfigurationProperties;
 import com.twitchbrother.back.model.TwitchStreamsModel;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.ListenableFuture;
@@ -12,19 +16,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-
 /**
  * https://github.com/AsyncHttpClient/async-http-client
  */
 @Component
-public class TwitchClient {
+public class TwitchAPIClient {
 
   private final TwitchConfigurationProperties twitchConfigurationProperties;
-  private static final Logger LOG = LoggerFactory.getLogger(TwitchClient.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TwitchAPIClient.class);
   AsyncHttpClient client = new DefaultAsyncHttpClient();
   private final String authorizationKey;
   private final String authorizationValue;
@@ -35,7 +34,7 @@ public class TwitchClient {
   private final String gameListRequestParameters;
   private final String afterParameter;
 
-  public TwitchClient(TwitchConfigurationProperties twitchConfigurationProperties) {
+  public TwitchAPIClient(TwitchConfigurationProperties twitchConfigurationProperties) {
     this.twitchConfigurationProperties = twitchConfigurationProperties;
     this.authorizationKey = twitchConfigurationProperties.getApi().getAuthorization().getKey();
     this.authorizationValue = twitchConfigurationProperties.getApi().getAuthorization().getValue();

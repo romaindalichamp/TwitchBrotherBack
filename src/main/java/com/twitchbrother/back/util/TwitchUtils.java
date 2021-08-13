@@ -14,7 +14,7 @@ public final class TwitchUtils {
    * @param throttle max throttle fixed by the API
    * @return throttle foreach thread in milliseconds
    */
-  public static int calculateMaxThrottle(final int throttle) {
+  public static float calculateMaxThrottle(final float throttle) {
     return 1000 / (throttle / 60);
   }
 
@@ -26,13 +26,13 @@ public final class TwitchUtils {
    * @param defaultThrottleByMinutes Maximum / Default Throttle from Twitch API
    * @return he minimum milliseconds number to wait after a group of request to the Twitch API
    */
-  public static int calculatethrottleAfterEveryRequest(int numberRequestExecuted,
-      int defaultThrottleByMinutes) {
+  public static float calculatethrottleAfterEveryRequest(float numberRequestExecuted,
+      float defaultThrottleByMinutes) {
     float maxRequestBySeconds = defaultThrottleByMinutes / 60;
-    int beforeNextThread = calculateMaxThrottle(defaultThrottleByMinutes);
+    float beforeNextThread = calculateMaxThrottle(defaultThrottleByMinutes);
 
     if (numberRequestExecuted > maxRequestBySeconds) {
-      beforeNextThread = (int) (numberRequestExecuted / maxRequestBySeconds) * 1000;
+      beforeNextThread = (numberRequestExecuted / maxRequestBySeconds) * 1000;
     }
 
     LOG.debug("Number of paginations called: {}", numberRequestExecuted);

@@ -13,6 +13,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+  private final TwitchConfigurationProperties twitchConfigurationProperties;
+
+  public SecurityConfig(
+      TwitchConfigurationProperties twitchConfigurationProperties) {
+    this.twitchConfigurationProperties = twitchConfigurationProperties;
+  }
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
@@ -40,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(true);
-    config.addAllowedOrigin("http://localhost:4200");
+    config.addAllowedOrigin(twitchConfigurationProperties.getApi().getAllowedOrigin());
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");
     source.registerCorsConfiguration("/**", config);

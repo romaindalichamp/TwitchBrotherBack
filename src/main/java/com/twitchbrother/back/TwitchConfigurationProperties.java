@@ -1,5 +1,7 @@
 package com.twitchbrother.back;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.Generated;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.validation.annotation.Validated;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @ConfigurationProperties(prefix = "twitch")
 @PropertySource("classpath:application.properties")
@@ -35,6 +34,7 @@ public class TwitchConfigurationProperties {
   @RequiredArgsConstructor
   public static class TwitchApi {
 
+    private final String allowedOrigin;
     private final TwitchHelix helix;
     private final TwitchConnectionData authorization;
     private final TwitchConnectionData clientId;
@@ -73,7 +73,7 @@ public class TwitchConfigurationProperties {
       public static class TwitchStreams {
 
         private final String url;
-        private final int throttle;
+        private final float throttle;
         private final String gameIdParameter;
         private final ArrayList<String> gameIds;
         private final String maxByPage;
