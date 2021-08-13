@@ -1,7 +1,0 @@
-organization=javamentoring
-projectKey=fukakai_TwitchBrotherBack
-serverUrl=https://sonarcloud.io
-serverVersion=8.0.0.22484
-dashboardUrl=https://sonarcloud.io/dashboard?id=fukakai_TwitchBrotherBack
-ceTaskId=AXszjuJrPBQZTf_Nc4qk
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AXszjuJrPBQZTf_Nc4qk
