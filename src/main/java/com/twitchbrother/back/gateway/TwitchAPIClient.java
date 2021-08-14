@@ -149,8 +149,11 @@ public class TwitchAPIClient {
       //  helps to save more than 1 second for each group of requests / loop
       return jsonMapper.readValue(response.getBody(), TwitchStreamsModel.class);
 
-    } catch (JsonProcessingException | URISyntaxException | InterruptedException e) {
-      LOG.info("Exception {}", e);
+    } catch (JsonProcessingException | URISyntaxException e){
+      throw new TwitchApiRequestException(e);
+    } catch(InterruptedException e) {
+      //restore interrupted state
+      Thread.currentThread().interrupt();
       throw new TwitchApiRequestException(e);
     }
   }
