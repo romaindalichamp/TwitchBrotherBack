@@ -36,21 +36,6 @@ public class TwitchConfigurationProperties {
 
     private final String allowedOrigin;
     private final TwitchHelix helix;
-    private final TwitchConnectionData authorization;
-    private final TwitchConnectionData clientId;
-
-    @Generated
-    @Data
-    @Accessors
-    @ToString
-    @Validated
-    @ConstructorBinding
-    @RequiredArgsConstructor
-    public static class TwitchConnectionData {
-
-      private final String key;
-      private final String value;
-    }
 
     @Generated
     @Data
@@ -62,6 +47,38 @@ public class TwitchConfigurationProperties {
     public static class TwitchHelix {
 
       private final TwitchStreams streams;
+      private final Authentication authentication;
+
+      @Generated
+      @Data
+      @Accessors
+      @ToString
+      @Validated
+      @ConstructorBinding
+      @RequiredArgsConstructor
+      public static class Authentication {
+
+        private final String url;
+        private final String clientidHeaderKey;
+        private final TwitchConnectionData clientid;
+        private final TwitchConnectionData clientsecret;
+        private final TwitchConnectionData granttype;
+        private final TwitchConnectionData scopes;
+        private final String authorizationkey;
+
+        @Generated
+        @Data
+        @Accessors
+        @ToString
+        @Validated
+        @ConstructorBinding
+        @RequiredArgsConstructor
+        public static class TwitchConnectionData {
+
+          private final String key;
+          private final String value;
+        }
+      }
 
       @Generated
       @Data
