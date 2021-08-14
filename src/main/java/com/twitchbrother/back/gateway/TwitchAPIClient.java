@@ -4,18 +4,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.twitchbrother.back.TwitchConfigurationProperties;
 import com.twitchbrother.back.model.TwitchStreamsModel;
-import com.twitchbrother.back.service.TwitchService;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.DefaultAsyncHttpClient;
-import org.asynchttpclient.ListenableFuture;
-import org.asynchttpclient.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * https://github.com/AsyncHttpClient/async-http-client
@@ -23,9 +22,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class TwitchAPIClient {
 
+  RestTemplate restTemplate = new RestTemplate();
   private final TwitchConfigurationProperties twitchConfigurationProperties;
   private static final Logger LOG = LoggerFactory.getLogger(TwitchAPIClient.class);
-  AsyncHttpClient client = new DefaultAsyncHttpClient();
   private final String authorizationKey;
   private final String authorizationValue;
   private final String clientIdKey;
@@ -56,6 +55,7 @@ public class TwitchAPIClient {
     //TODO: WEB SOCKET
     //TODO: ANGULAR
     //TODO: TUs
+    // sorting
   }
 
   public TwitchStreamsModel pollHelixStream(final String cursor) {
@@ -66,20 +66,21 @@ public class TwitchAPIClient {
           .append((Objects.nonNull(cursor)) ? afterParameter : "")
           .append((Objects.nonNull(cursor)) ? cursor : "").toString());
 
-      ListenableFuture<Response> result = client
-          .prepareGet(String.valueOf(url))
-          .addHeader(authorizationKey, authorizationValue)
-          .addHeader(clientIdKey, clientIdValue)
-          .execute();
+      HttpHeaders headers = new HttpHeaders();
+      headers.add(authorizationKey, authorizationValue);
+      headers.add(clientIdKey, clientIdValue);
+      HttpEntity request = new HttpEntity(headers);
+      ResponseEntity<String> response =
+          restTemplate.exchange(
+              String.valueOf(url),
+              HttpMethod.GET,
+              request, String.class);
 
-      LOG.trace("Poll Streams to: {}", url);
-      return jsonMapper.readValue(result.toCompletableFuture().get().getResponseBody(),
+      // Receive the Response value in String and serialize it with JsonMapper
+      //  helps to save more than 1 second for a group of requests / loop
+      return jsonMapper.readValue(response.getBody(),
           TwitchStreamsModel.class);
-    } catch (InterruptedException e){
-      LOG.info("Interrupted! {}", e);
-      Thread.currentThread().interrupt();
-      throw new RuntimeException(e);
-    } catch(ExecutionException | JsonProcessingException | MalformedURLException e) {
+    } catch (JsonProcessingException | MalformedURLException e) {
       LOG.info("Exception {}", e);
       throw new RuntimeException(e);
     }
