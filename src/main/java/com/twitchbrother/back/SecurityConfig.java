@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public CorsConfigurationSource corsConfigurationSource() {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowCredentials(true);
+    config.setAllowCredentials(false);
     config.addAllowedOrigin(twitchConfigurationProperties.getApi().getAllowedOrigin());
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");

@@ -110,7 +110,6 @@ public class TwitchAPIClient {
     this.restTemplate = new RestTemplateBuilder().errorHandler(restTemplateErrorHandler).build();
 
     //TODO: upload on heroku with secrets
-    //TODO: Vault to save secrets https://dashboard.heroku.com/new?button-url=https%3A%2F%2Felements.heroku.com%2F&template=https%3A%2F%2Fgithub.com%2Fpallavkothari%2Fvault
     //TODO: ANGULAR Chart
     //TODO: UT
     //TODO: Redis database connection to save specific datas https://dashboard.heroku.com/provision-addon?addonServiceId=5bbf672c-07f6-49c2-9c16-f1dcb96784db&planId=67756275-86b8-4edc-80c5-d543f9df7d44
