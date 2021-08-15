@@ -18,6 +18,12 @@ Java Micro Service with
 ## Run in local
 
 - you may need to install if not OpenJdk: https://openjdk.java.net/install/
+- download and install Redis: https://github.com/microsoftarchive/redis/releases
+  - Leave default values, as Hostname = 'localhost' and port '6379'
+  - Add redis repository to the PATH (Check box with MSI version)
+  - with the default MSI version, windows starts autmatically a redis server as a service after installation
+  - from any cmd enter `redis-cli`
+  - to see the saved results, enter `KEYS *` or use a GUI Client: https://www.npmjs.com/package/redis-commander
 - and maven: https://maven.apache.org/download.cgi
 - define following environment variables: - values will be provided to you by email
   - TWITCH_CLIENT_ID: {twitchClientSecret}

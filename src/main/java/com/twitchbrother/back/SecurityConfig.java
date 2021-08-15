@@ -13,11 +13,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private final TwitchConfigurationProperties twitchConfigurationProperties;
+  private final CustomConfigurationProperties customConfigurationProperties;
 
   public SecurityConfig(
-      TwitchConfigurationProperties twitchConfigurationProperties) {
-    this.twitchConfigurationProperties = twitchConfigurationProperties;
+      CustomConfigurationProperties customConfigurationProperties) {
+    this.customConfigurationProperties = customConfigurationProperties;
   }
 
   @Override
@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable()
         .authorizeRequests()
         .antMatchers("/ws").permitAll()
+        .antMatchers("/datasnapshot").permitAll()
         .anyRequest()
         .authenticated();
   }
@@ -47,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(false);
-    config.addAllowedOrigin(twitchConfigurationProperties.getApi().getAllowedOrigin());
+    config.addAllowedOrigin(customConfigurationProperties.getTwitch().getApi().getAllowedOrigin());
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");
     source.registerCorsConfiguration("/**", config);

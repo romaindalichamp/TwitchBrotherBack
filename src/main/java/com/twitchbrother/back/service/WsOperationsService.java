@@ -17,6 +17,12 @@ public class WsOperationsService {
     this.streamMapper = streamMapper;
   }
 
+  /**
+   * Uses Generics to send any object on a websocket with a given Topic / Destination
+   * @param destination - URI where the message has to be send
+   * @param message - the Object of any type to send
+   * @param <T> - the type of the object can be any of T
+   */
   public <T> void sendMessageOverWs(String destination, T message){
     this.simpMessageSendingOperations.convertAndSend(destination, message);
   }

@@ -2,7 +2,7 @@ package com.twitchbrother.back.gateway;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.twitchbrother.back.TwitchConfigurationProperties;
+import com.twitchbrother.back.CustomConfigurationProperties;
 import com.twitchbrother.back.exception.TwitchApiAuthenticationException;
 import com.twitchbrother.back.exception.TwitchApiRequestException;
 import com.twitchbrother.back.handler.RestTemplateErrorHandler;
@@ -24,7 +24,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * https://github.com/AsyncHttpClient/async-http-client
+ * A simple non-Asynchronous HttpClient to execute Requests in order to Poll
+ * Twitch API as fast as possible to render the configured Streams Datas
+ * The configuration can be modified in
+ * <p>- application.properties
+ * <p>- Environement Variables
  */
 @Component
 public class TwitchAPIClient {
@@ -34,7 +38,7 @@ public class TwitchAPIClient {
   private final RestTemplateBuilder restTemplateBuilder;
   private final RestTemplateErrorHandler restTemplateErrorHandler;
   private final RestTemplate restTemplate;
-  private final TwitchConfigurationProperties twitchConfigurationProperties;
+  private final CustomConfigurationProperties customConfigurationProperties;
   private static final Logger LOG = LoggerFactory.getLogger(TwitchAPIClient.class);
   private final String authorizationKey;
   private final String clientIdKey;
@@ -60,58 +64,54 @@ public class TwitchAPIClient {
   public TwitchAPIClient(
       RestTemplateBuilder restTemplateBuilder,
       RestTemplateErrorHandler restTemplateErrorHandler,
-      TwitchConfigurationProperties twitchConfigurationProperties) {
+      CustomConfigurationProperties customConfigurationProperties) {
     this.restTemplateBuilder = restTemplateBuilder;
     this.restTemplateErrorHandler = restTemplateErrorHandler;
-    this.twitchConfigurationProperties = twitchConfigurationProperties;
+    this.customConfigurationProperties = customConfigurationProperties;
 
     this.twitchGameStreamUrl =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getStreams().getUrl();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getStreams().getUrl();
     this.gameListRequestParameters =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getStreams().createGameListRequestParameters();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getStreams().createGameListRequestParameters();
     this.afterParameter =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getStreams().getAfterParameter();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getStreams().getAfterParameter();
     this.authenticationUrl =
-        this.twitchConfigurationProperties.getApi().getHelix().getAuthentication().getUrl();
+        this.customConfigurationProperties.getTwitch().getApi().getHelix().getAuthentication().getUrl();
     this.clientIdKey =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getAuthentication().getClientid().getKey();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getAuthentication().getClientid().getKey();
     this.clientIdValue =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getAuthentication().getClientid().getValue();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getAuthentication().getClientid().getValue();
     this.clientSecretKey =
-        this.twitchConfigurationProperties.getApi()
+        this.customConfigurationProperties.getTwitch().getApi()
             .getHelix().getAuthentication().getClientsecret().getKey();
     this.clientSecretValue =
-        this.twitchConfigurationProperties.getApi()
+        this.customConfigurationProperties.getTwitch().getApi()
             .getHelix().getAuthentication().getClientsecret().getValue();
     this.grantTypeKey =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getAuthentication().getGranttype().getKey();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getAuthentication().getGranttype().getKey();
     this.grantTypeValue =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getAuthentication().getGranttype().getValue();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getAuthentication().getGranttype().getValue();
     this.scopesKey =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getAuthentication().getScopes().getKey();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getAuthentication().getScopes().getKey();
     this.scopesValue =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getAuthentication().getScopes().getValue();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getAuthentication().getScopes().getValue();
     this.authorizationKey =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getAuthentication().getAuthorizationkey();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getAuthentication().getAuthorizationkey();
     this.clientidHeaderKey =
-        this.twitchConfigurationProperties
-            .getApi().getHelix().getAuthentication().getClientidHeaderKey();
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getAuthentication().getClientidHeaderKey();
 
     this.restTemplate = new RestTemplateBuilder().errorHandler(restTemplateErrorHandler).build();
-
-    //TODO: UT
-    //TODO: Redis database ==> DataScreenshot ? to show Rest
-    // https://dashboard.heroku.com/provision-addon?addonServiceId=5bbf672c-07f6-49c2-9c16-f1dcb96784db&planId=67756275-86b8-4edc-80c5-d543f9df7d44
   }
 
   /**

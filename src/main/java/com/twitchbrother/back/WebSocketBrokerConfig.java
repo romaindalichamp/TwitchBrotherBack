@@ -10,11 +10,11 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
 
-  private final TwitchConfigurationProperties twitchConfigurationProperties;
+  private final CustomConfigurationProperties customConfigurationProperties;
 
   public WebSocketBrokerConfig(
-      TwitchConfigurationProperties twitchConfigurationProperties) {
-    this.twitchConfigurationProperties = twitchConfigurationProperties;
+      CustomConfigurationProperties customConfigurationProperties) {
+    this.customConfigurationProperties = customConfigurationProperties;
   }
 
   @Override
@@ -25,6 +25,6 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/ws").setAllowedOrigins(twitchConfigurationProperties.getApi().getAllowedOrigin());
+    registry.addEndpoint("/ws").setAllowedOrigins(customConfigurationProperties.getTwitch().getApi().getAllowedOrigin());
   }
 }

@@ -7,16 +7,11 @@ import org.slf4j.LoggerFactory;
  * Twitch Utils
  */
 public final class TwitchUtils {
+  private TwitchUtils() {
+    throw new UnsupportedOperationException();
+  }
 
   private static final Logger LOG = LoggerFactory.getLogger(TwitchUtils.class);
-
-  /**
-   * @param throttle max throttle fixed by the API
-   * @return throttle foreach thread in milliseconds
-   */
-  public static float calculateMaxThrottle(final float throttle) {
-    return 1000 / (throttle / 60);
-  }
 
   /**
    * Calculate the minimum milliseconds number to wait after a group of request to the Twitch API in

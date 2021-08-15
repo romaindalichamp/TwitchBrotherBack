@@ -1,6 +1,6 @@
 package com.twitchbrother.back.service;
 
-import com.twitchbrother.back.TwitchConfigurationProperties;
+import com.twitchbrother.back.CustomConfigurationProperties;
 import com.twitchbrother.back.gateway.TwitchAPIClient;
 import com.twitchbrother.back.mapper.StreamMapper;
 import com.twitchbrother.back.model.TwitchStreamsDataModel;
@@ -19,7 +19,7 @@ public class TwitchService {
   private static final Logger LOG = LoggerFactory.getLogger(TwitchService.class);
 
   private static final int MAXIMUM_PAGES_BY_THREAD = 25;
-  private final TwitchConfigurationProperties twitchConfigurationProperties;
+  private final CustomConfigurationProperties customConfigurationProperties;
   private final SimpMessageSendingOperations simpleSimpMessageSendingOperations;
   private final WsOperationsService wsOperationsService;
   private final TwitchAPIClient twitchAPIClient;
@@ -29,24 +29,26 @@ public class TwitchService {
   private long timeToConsultAllPaginations;
 
   public TwitchService(SimpMessageSendingOperations simpleSimpMessageSendingOperations,
-      TwitchConfigurationProperties twitchConfigurationProperties,
+      CustomConfigurationProperties customConfigurationProperties,
       WsOperationsService wsOperationsService,
       TwitchAPIClient twitchAPIClient, StreamMapper streamMapper) {
 
-    this.twitchConfigurationProperties = twitchConfigurationProperties;
+    this.customConfigurationProperties = customConfigurationProperties;
     this.simpleSimpMessageSendingOperations = simpleSimpMessageSendingOperations;
     this.wsOperationsService = wsOperationsService;
     this.twitchAPIClient = twitchAPIClient;
     this.streamMapper = streamMapper;
 
     twitchThrottle =
-        this.twitchConfigurationProperties.getApi().getHelix().getStreams().getThrottle();
+        this.customConfigurationProperties.getTwitch().getApi().getHelix().getStreams().getThrottle();
 
     this.pollHelixStreamsWithThread();
   }
 
   /**
-   * Short Polling Twitch with Thread Implementation
+   * Short Polling Twitch with Thread Implementation looping forever
+   * The Throttle fixed by Twitch is respected using a simple algorithm calculating the average
+   * time per request and waiting a bit if necessary to refill let Twitch Bucket refill
    */
   public void pollHelixStreamsWithThread() {
     Executors.newCachedThreadPool().execute(() -> {

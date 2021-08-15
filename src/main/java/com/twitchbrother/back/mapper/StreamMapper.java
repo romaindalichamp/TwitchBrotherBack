@@ -11,6 +11,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+/**
+ * Maps Twitch Streams received datas into convenient StreamDto using NamedQueries
+ */
 @Mapper(config = CustomMapperConfiguration.class)
 public interface StreamMapper {
 

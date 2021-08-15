@@ -8,6 +8,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ValueMapping;
 
+/**
+ * Maps only few requiered Twitch Streams datas in a light weight version
+ */
 @Mapper(config = CustomMapperConfiguration.class)
 public interface StreamDataMapper {
 
