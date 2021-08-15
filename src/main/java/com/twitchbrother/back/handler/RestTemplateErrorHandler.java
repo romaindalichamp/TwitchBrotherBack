@@ -29,11 +29,10 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
     if (httpResponse.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR) {
       throw new HttpServerErrorException(httpResponse.getStatusCode(), "SERVER ERROR");
     } else if (httpResponse.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR) {
-      // bad request for debug
-      if (httpResponse.getStatusCode().value() != HttpStatus.UNAUTHORIZED.value()
-          && httpResponse.getStatusCode().value() != HttpStatus.BAD_REQUEST.value()) {
-        throw new HttpClientErrorException(httpResponse.getStatusCode(), "NOT FOUND");
-      }
+      // if the Http Status is 4xx, it is probably: UNAUTHORIZED, BAD_REQUEST or NOT_FOUND
+      // theses can happen, but we don't want to stop the program for them because it is very probably
+      // possible to reconnect
+      // a security in the client is activated to delay the http connecte retries in the time
     }
   }
 }

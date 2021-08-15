@@ -9,6 +9,10 @@ Backend API to save Twitch datas in a Redis Database
 
 ## Run in local
 
+- define following environment variables:
+  - TWITCH_CLIENT_ID
+  - TWITCH_CLIENT_SECRET={twitchClientSecret}
+  - ALLOWED_ORIGIN=*
 Deploy: `mvn spring-boot:run` on port 8080 SonarQube Analysis: `sonar-scanner` (with SONAR_TOKEN
 environment variable)
 
