@@ -1,24 +1,27 @@
 # TwitchBrotherBack
 
-Backend API to save Twitch datas in a Redis Database
+Java Micro Service with 
+- a Twitch Client to Poll Twitch API as fast as possible / authorized
+- a websocker server pushing the results of the streaming datas to any connected client
+- You can download and install the client (Angular 12) to consult all the analytics here: https://github.com/fukakai/TwitchBrother
 
-## About
+## SonarCloud
 
-- SonarCloud report: https://sonarcloud.io/dashboard?id=fukakai_TwitchBrotherBack
-- production URL: {heroku}
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fukakai_TwitchBrotherBack&metric=alert_status)](https://sonarcloud.io/dashboard?id=fukakai_TwitchBrotherBack)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fukakai_TwitchBrotherBack&metric=coverage)](https://sonarcloud.io/dashboard?id=fukakai_TwitchBrotherBack)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fukakai_TwitchBrotherBack&metric=security_rating)](https://sonarcloud.io/dashboard?id=fukakai_TwitchBrotherBack)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fukakai_TwitchBrotherBack&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=fukakai_TwitchBrotherBack)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=fukakai_TwitchBrotherBack&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=fukakai_TwitchBrotherBack)
+
+- deployed on Heroku here: https://dashboard.heroku.com/apps/twitch-brother-back
 
 ## Run in local
 
-- define following environment variables:
-  - TWITCH_CLIENT_ID
+- you may need to install if not OpenJdk: https://openjdk.java.net/install/
+- and maven: https://maven.apache.org/download.cgi
+- define following environment variables: - will be provided to you by email
+  - TWITCH_CLIENT_ID: {twitchClientSecret}
   - TWITCH_CLIENT_SECRET={twitchClientSecret}
-  - ALLOWED_ORIGIN=*
-Deploy: `mvn spring-boot:run` on port 8080 SonarQube Analysis: `sonar-scanner` (with SONAR_TOKEN
+  - ALLOWED_ORIGIN=http://localhost:4200
+- to deploy: `mvn spring-boot:run` on port 8080 SonarQube Analysis: `sonar-scanner` (with SONAR_TOKEN
 environment variable)
-
-## Sonar
-
-* Download Sonar Scanner for
-  windows: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.4.0.2170-windows.zip
-* And add the `bin` directory to the %PATH% environment variable
-* run with `sonar-scanner`
