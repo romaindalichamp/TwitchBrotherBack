@@ -19,9 +19,10 @@ Java Micro Service with
 
 - you may need to install if not OpenJdk: https://openjdk.java.net/install/
 - and maven: https://maven.apache.org/download.cgi
-- define following environment variables: - will be provided to you by email
+- define following environment variables: - values will be provided to you by email
   - TWITCH_CLIENT_ID: {twitchClientSecret}
   - TWITCH_CLIENT_SECRET={twitchClientSecret}
   - ALLOWED_ORIGIN=http://localhost:4200
+  - how to define theses variables in Intellij: https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html#add-environment-variables
 - to deploy: `mvn spring-boot:run` on port 8080 SonarQube Analysis: `sonar-scanner` (with SONAR_TOKEN
 environment variable)
