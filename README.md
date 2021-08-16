@@ -29,6 +29,9 @@ Java Micro Service with
   - TWITCH_CLIENT_ID: {twitchClientSecret}
   - TWITCH_CLIENT_SECRET={twitchClientSecret}
   - ALLOWED_ORIGIN=http://localhost:4200
+  - GAMES_LIST=460630,497078,506274,490382
+    - you can modify this list by any game id, pick one Category here https://www.twitch.tv/ubisoft?lang=fr and look at "Category" in the URL
+    - for example Watch Dogs is: https://www.twitch.tv/ubisoft/videos?filter=archives&category=512895
   - how to define theses variables in Intellij: https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html#add-environment-variables
 - to deploy: `mvn spring-boot:run` on port 8080 SonarQube Analysis: `sonar-scanner` (with SONAR_TOKEN
 environment variable)
