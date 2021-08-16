@@ -62,9 +62,11 @@ public class TwitchAPIClient {
   private int waitBeforeNextAuthenticationTry = MAX_ATTEMPS_AUTHENTICATION;
 
   public TwitchAPIClient(
+      RestTemplate restTemplate,
       RestTemplateBuilder restTemplateBuilder,
       RestTemplateErrorHandler restTemplateErrorHandler,
       CustomConfigurationProperties customConfigurationProperties) {
+    this.restTemplate = restTemplate;
     this.restTemplateBuilder = restTemplateBuilder;
     this.restTemplateErrorHandler = restTemplateErrorHandler;
     this.customConfigurationProperties = customConfigurationProperties;
@@ -111,7 +113,7 @@ public class TwitchAPIClient {
         this.customConfigurationProperties
             .getTwitch().getApi().getHelix().getAuthentication().getClientidHeaderKey();
 
-    this.restTemplate = new RestTemplateBuilder().errorHandler(restTemplateErrorHandler).build();
+    this.restTemplate.setErrorHandler(restTemplateErrorHandler);
   }
 
   /**

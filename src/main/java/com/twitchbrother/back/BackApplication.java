@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableConfigurationProperties(CustomConfigurationProperties.class)
@@ -22,6 +23,11 @@ public class BackApplication {
 
   public static void main(String[] args) throws IOException, InterruptedException {
     SpringApplication.run(BackApplication.class, args);
+  }
+
+  @Bean
+  public RestTemplate restTemplate() {
+    return new RestTemplate();
   }
 
   @Bean

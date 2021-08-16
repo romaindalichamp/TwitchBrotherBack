@@ -7,9 +7,7 @@ import org.slf4j.LoggerFactory;
  * Twitch Utils
  */
 public final class TwitchUtils {
-  private TwitchUtils() {
-    throw new UnsupportedOperationException();
-  }
+  private TwitchUtils() {}
 
   private static final Logger LOG = LoggerFactory.getLogger(TwitchUtils.class);
 
