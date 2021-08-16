@@ -5,23 +5,32 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import com.twitchbrother.back.CustomConfigurationProperties;
+import com.twitchbrother.back.exception.TwitchApiRequestException;
 import com.twitchbrother.back.handler.RestTemplateErrorHandler;
 import com.twitchbrother.back.mapper.StreamMapper;
+import com.twitchbrother.back.model.TwitchApiAuthenticationModel;
+import com.twitchbrother.back.model.TwitchStreamsModel;
 import com.twitchbrother.back.service.TwitchService;
 import com.twitchbrother.back.service.WsOperationsService;
+import java.net.URI;
+import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,27 +55,25 @@ public class TwitchApiClientTest {
   private RestTemplateBuilder restTemplateBuilder;
   @Mock
   private RestTemplateErrorHandler restTemplateErrorHandler;
-  @Mock
-  private RestTemplate restTemplate;
+
+  private RestTemplate restTemplate = new RestTemplate();
 
   @BeforeEach
   public void loadProperties() {
-//    twitchAPIClient = new TwitchAPIClient(restTemplate,restTemplateBuilder,restTemplateErrorHandler,customConfigurationProperties);
+    twitchAPIClient = new TwitchAPIClient(restTemplate, restTemplateBuilder,
+        restTemplateErrorHandler, customConfigurationProperties);
+
+    twitchAPIClient.setRestTemplate(restTemplate);
   }
 
   @Test
   @DisplayName("pollHelixStream")
-  public void pollHelixStream(){
-//    ResponseEntity<String> response = new ResponseEntity<>(HttpStatus.OK);
+  public void pollHelixStream() {
+    HttpHeaders headers = new HttpHeaders();
+    ResponseEntity<String> response = new ResponseEntity<>(new TwitchStreamsModel().toString(),HttpStatus.OK);
 
-//    when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(String.class))).thenReturn(response);
-
-//    this.twitchAPIClient.pollHelixStream("");
-
-//    verify(restTemplate).exchange(anyString(), HttpMethod.GET, any(), String.class);
-//    this.authenticate(response)
-//    this.pollHelixStream(cursor)
-
-//    this.pollHelixStream();
+    Assertions.assertThatThrownBy(
+        () -> this.twitchAPIClient.pollHelixStream("")).isExactlyInstanceOf(
+        TwitchApiRequestException.class);
   }
 }

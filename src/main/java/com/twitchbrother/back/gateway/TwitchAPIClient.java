@@ -37,7 +37,6 @@ public class TwitchAPIClient {
 
   private final RestTemplateBuilder restTemplateBuilder;
   private final RestTemplateErrorHandler restTemplateErrorHandler;
-  private final RestTemplate restTemplate;
   private final CustomConfigurationProperties customConfigurationProperties;
   private static final Logger LOG = LoggerFactory.getLogger(TwitchAPIClient.class);
   private final String authorizationKey;
@@ -47,6 +46,7 @@ public class TwitchAPIClient {
   private final String twitchGameStreamUrl;
   private final String gameListRequestParameters;
   private final String afterParameter;
+  private RestTemplate restTemplate;
   private String authenticationUrl;
   private String clientSecretKey;
   private String clientSecretValue;
@@ -137,7 +137,7 @@ public class TwitchAPIClient {
       request = new HttpEntity(headers);
 
       ResponseEntity<String> response =
-          restTemplate.exchange(uri, HttpMethod.GET, request, String.class);
+          restTemplate.exchange(uri.toString(), HttpMethod.GET, request, String.class);
 
       if (response.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
         if (this.authenticate(response)) {
@@ -201,5 +201,9 @@ public class TwitchAPIClient {
     }
 
     return Objects.nonNull(this.accessToken) && Objects.nonNull(this.tokenType);
+  }
+
+  public void setRestTemplate(RestTemplate restTemplate){
+    this.restTemplate = restTemplate;
   }
 }
