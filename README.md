@@ -53,7 +53,7 @@ Install dependencies
   - `mvn clean install`
 
 ## Deploy
-- `mvn spring-boot:run` on port `8080`, http:"//localhost:8080
+- `mvn spring-boot:run`. The application will deploy on http://localhost:8080
 - you can modify the `GAMES_LIST` Environement Variable with any game id, pick one Category here https://www.twitch.tv/ubisof?lang=fr and look at "Category" in the URL
   - for example Watch Dogs is: https://www.twitch.tv/ubisoft/videos?filter=archives&category=512895
 - run `mvn spring-boot:run -Dspring.profiles.active=dev` to display more logs
