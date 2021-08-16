@@ -35,21 +35,27 @@ Maven
 ## Installation
 
 Environment Variables
+
+### Solution 1
+- use the POM file sent via email including the environment variables, and replace the existing one with
+
+### Solution 2
+add the dependencies on your system
 - how to define theses variables in Intellij: https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html#add-environment-variables
 - Define following environment variables: - values will be provided to you by email
   - `TWITCH_CLIENT_ID`= xxx
   - `TWITCH_CLIENT_SECRET`= xxx
   - `ALLOWED_ORIGIN`= http://localhost:4200
   - `GAMES_LIST`=`460630,497078,506274,490382`
-    - you can modify this list by any game id, pick one Category here https://www.twitch.tv/ubisoft?lang=fr and look at "Category" in the URL
-    - for example Watch Dogs is: https://www.twitch.tv/ubisoft/videos?filter=archives&category=512895
 
 to add them easily: `TWITCH_CLIENT_ID=xxx;TWITCH_CLIENT_SECRET=xxx;ALLOWED_ORIGIN=http://localhost:4200;REDIS_HOSTNAME=localhost;REDIS_PORT=6379;GAMES_LIST=460630,497078,506274,490382`
 Install dependencies
-  - `mvn clean install -U`
+  - `mvn clean install`
 
 ## Deploy
 - `mvn spring-boot:run` on port `8080`, http:"//localhost:8080
+- you can modify the `GAMES_LIST` Environement Variable with any game id, pick one Category here https://www.twitch.tv/ubisof?lang=fr and look at "Category" in the URL
+  - for example Watch Dogs is: https://www.twitch.tv/ubisoft/videos?filter=archives&category=512895
 
 ## Server
 
