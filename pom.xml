@@ -24,17 +24,32 @@
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
     <sonar.language>java</sonar.language>
+    <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
+    <asertj.version>3.20.2</asertj.version>
+    <mockito.version>3.11.2</mockito.version>
+    <junitjupiter.version>5.7.2</junitjupiter.version>
+    <spring.boot.starter.data.redis.version>2.5.3</spring.boot.starter.data.redis.version>
+    <spring.boot.configuration.processor.version>2.5.3</spring.boot.configuration.processor.version>
+    <mapstruct.version>1.4.2.Final</mapstruct.version>
+    <spring.security.config.version>5.2.1.RELEASE</spring.security.config.version>
+    <spring.security.web.version>5.2.1.RELEASE</spring.security.web.version>
+    <lombok.version>1.18.20</lombok.version>
+    <json.version>20200518</json.version>
+    <httpclient.version>4.5.12</httpclient.version>
+    <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+    <mapstruct.processor.version>1.4.2.Final</mapstruct.processor.version>
+    <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
   </properties>
   <dependencies>
     <dependency>
       <groupId>org.jacoco</groupId>
       <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.7</version>
+      <version>${jacoco.plugin.version}</version>
     </dependency>
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.20.2</version>
+      <version>${assertj.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -44,19 +59,19 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>3.11.2</version>
+      <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.7.2</version>
+      <version>${junitjupiter.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
-      <version>2.5.3</version>
+      <version>${spring.boot.starter.data.redis.version}</version>
       <exclusions>
         <exclusion>
           <groupId>io.lettuce</groupId>
@@ -71,12 +86,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-configuration-processor</artifactId>
-      <version>2.5.3</version>
+      <version>${spring.boot.configuration.processor.version}</version>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
-      <version>1.4.2.Final</version>
+      <version>${mapstruct.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -85,37 +100,27 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
-      <version>5.2.1.RELEASE</version>
+      <version>${spring.security.config.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <version>5.2.1.RELEASE</version>
+      <version>${spring.security.web.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-messaging</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-configuration-processor</artifactId>
-      <version>2.5.3</version>
-    </dependency>
-    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.20</version>
+      <version>${lombok.version}</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.asynchttpclient</groupId>
-      <artifactId>async-http-client</artifactId>
-      <version>2.12.3</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
-      <version>20200518</version>
+      <version>${json.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
@@ -156,7 +161,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>${maven.compiler.plugin.version}</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -164,17 +169,17 @@
             <path>
               <groupId>org.mapstruct</groupId>
               <artifactId>mapstruct-processor</artifactId>
-              <version>1.4.2.Final</version>
+              <version>${mapstruct.processor.version}</version>
             </path>
             <path>
               <groupId>org.projectlombok</groupId>
               <artifactId>lombok</artifactId>
-              <version>1.18.20</version>
+              <version>${lombok.version}</version>
             </path>
             <dependency>
               <groupId>org.projectlombok</groupId>
               <artifactId>lombok-mapstruct-binding</artifactId>
-              <version>0.2.0</version>
+              <version>${lombok.mapstruct.binding.version}</version>
             </dependency>
           </annotationProcessorPaths>
         </configuration>
@@ -201,5 +206,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>
