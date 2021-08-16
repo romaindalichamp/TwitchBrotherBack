@@ -3,6 +3,7 @@ package com.twitchbrother.back.service;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +27,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.client.RestTemplate;
 
 @ExtendWith(SpringExtension.class)
 @EnableConfigurationProperties(value = CustomConfigurationProperties.class)
@@ -46,6 +48,8 @@ public class TwitchServiceTest {
   private StreamMapper streamMapper;
   @Mock
   private WsOperationsService wsOperationsService;
+  @Mock
+  private RestTemplate restTemplate;
 
   @BeforeEach
   public void loadProperties() {
@@ -54,8 +58,8 @@ public class TwitchServiceTest {
   }
 
   @Test
-  @DisplayName("pollHelixStreamsWithThread")
-  public void pollHelixStreamsWithThread() {
+  @DisplayName("pollHelixStreams")
+  public void pollHelixStreams() {
     TwitchStreamsDataModel twitchStreamsDataModel = new TwitchStreamsDataModel();
     twitchStreamsDataModel.setGame_id("5");
     twitchStreamsDataModel.setLanguage("français");
@@ -69,8 +73,8 @@ public class TwitchServiceTest {
     doNothing().when(wsOperationsService).sendMessageOverWs(anyString(), any(Object.class));
     when(twitchAPIClient.pollHelixStream(any())).thenReturn(twitchStreamsModel);
 
-    this.twitchService.pollHelixStreamsWithThread();
+    this.twitchService.pollHelixStreams();
 
-    verify(twitchAPIClient).pollHelixStream(anyString());
+    verify(twitchAPIClient,times(2)).pollHelixStream(anyString());
   }
 }

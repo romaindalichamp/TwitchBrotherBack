@@ -80,7 +80,7 @@ public class TwitchService {
    *
    * @return
    */
-  private TwitchStreamsModel pollHelixStreams() {
+  public TwitchStreamsModel pollHelixStreams() {
     TwitchStreamsModel twitchStreamsModel = new TwitchStreamsModel();
     String cursor = "";
     this.numberOfRequestForPagination = 0;

@@ -51,10 +51,22 @@ public class TwitchApiClientTest {
 
   @BeforeEach
   public void loadProperties() {
+//    twitchAPIClient = new TwitchAPIClient(restTemplate,restTemplateBuilder,restTemplateErrorHandler,customConfigurationProperties);
   }
 
   @Test
   @DisplayName("pollHelixStream")
   public void pollHelixStream(){
+//    ResponseEntity<String> response = new ResponseEntity<>(HttpStatus.OK);
+
+//    when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(String.class))).thenReturn(response);
+
+//    this.twitchAPIClient.pollHelixStream("");
+
+//    verify(restTemplate).exchange(anyString(), HttpMethod.GET, any(), String.class);
+//    this.authenticate(response)
+//    this.pollHelixStream(cursor)
+
+//    this.pollHelixStream();
   }
 }
