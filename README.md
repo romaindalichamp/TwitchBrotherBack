@@ -18,25 +18,35 @@ Java Micro Service with
 
 ## Pre-installation
 
+Open Jdk - Java
 - You may need to install if not OpenJdk: https://openjdk.java.net/install/
+
+Redis
 - Download and install Redis: https://github.com/microsoftarchive/redis/releases
   - Leave default values, as Hostname = `localhost` and port `6379`
   - Add redis repository to the `PATH` (Check box with MSI version)
   - with the default MSI version, windows starts autmatically a redis server as a service after installation
   - from any cmd enter `redis-cli`
   - to see the saved results, enter `KEYS *` or use a GUI Client: https://www.npmjs.com/package/redis-commander
+
+Maven
 - Download and install maven: https://maven.apache.org/download.cgi
  
 ## Installation
+
+Environment Variables
+- how to define theses variables in Intellij: https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html#add-environment-variables
 - Define following environment variables: - values will be provided to you by email
-  - `TWITCH_CLIENT_ID:` ...
-  - `TWITCH_CLIENT_SECRET`={twitchClientSecret}
-  - `ALLOWED_ORIGIN`=http://localhost:4200
+  - `TWITCH_CLIENT_ID`= xxx
+  - `TWITCH_CLIENT_SECRET`= xxx
+  - `ALLOWED_ORIGIN`= http://localhost:4200
   - `GAMES_LIST`=`460630,497078,506274,490382`
     - you can modify this list by any game id, pick one Category here https://www.twitch.tv/ubisoft?lang=fr and look at "Category" in the URL
     - for example Watch Dogs is: https://www.twitch.tv/ubisoft/videos?filter=archives&category=512895
-  - how to define theses variables in Intellij: https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html#add-environment-variables
-- `mvn clean install -U`
+
+to add them easily: `TWITCH_CLIENT_ID=xxx;TWITCH_CLIENT_SECRET=xxx;ALLOWED_ORIGIN=http://localhost:4200;REDIS_HOSTNAME=localhost;REDIS_PORT=6379;GAMES_LIST=460630,497078,506274,490382`
+Install dependencies
+  - `mvn clean install -U`
 
 ## Deploy
 - `mvn spring-boot:run` on port `8080`, http:"//localhost:8080
