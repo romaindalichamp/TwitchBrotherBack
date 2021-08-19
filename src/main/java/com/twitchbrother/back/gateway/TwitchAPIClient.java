@@ -131,6 +131,8 @@ public class TwitchAPIClient {
           .append((Objects.nonNull(cursor)) ? afterParameter : "")
           .append((Objects.nonNull(cursor)) ? cursor : "").toString());
 
+      LOG.trace(String.valueOf(uri));
+
       HttpHeaders headers = new HttpHeaders();
       headers.add(authorizationKey, tokenType + " " + accessToken);
       headers.add(clientidHeaderKey, clientIdValue);
