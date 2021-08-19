@@ -171,9 +171,9 @@ public class TwitchAPIClient {
     URI uri = new URI(new StringBuilder()
         .append(authenticationUrl)
         .append(clientIdKey + clientIdValue)
-        .append("&" + clientSecretKey + clientSecretValue)
-        .append("&" + grantTypeKey + grantTypeValue)
-        .append("&" + scopesKey + scopesValue)
+        .append("&").append(clientSecretKey + clientSecretValue)
+        .append("&").append(grantTypeKey + grantTypeValue)
+        .append("&").append(scopesKey + scopesValue)
         .toString());
 
     try {
