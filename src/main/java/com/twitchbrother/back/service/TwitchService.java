@@ -18,7 +18,7 @@ public class TwitchService {
 
   private static final Logger LOG = LoggerFactory.getLogger(TwitchService.class);
 
-  private static final int MAXIMUM_PAGES_BY_THREAD = 25;
+  private static final int MAXIMUM_PAGES_BY_THREAD = 80;
   private final CustomConfigurationProperties customConfigurationProperties;
   private final WsOperationsService wsOperationsService;
   private final TwitchAPIClient twitchAPIClient;

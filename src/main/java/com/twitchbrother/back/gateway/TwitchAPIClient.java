@@ -54,6 +54,7 @@ public class TwitchAPIClient {
   private String grantTypeValue;
   private String scopesKey;
   private String scopesValue;
+  private String maxByPage;
   private HttpEntity request;
   private String accessToken;
   private String tokenType;
@@ -80,6 +81,9 @@ public class TwitchAPIClient {
     this.afterParameter =
         this.customConfigurationProperties
             .getTwitch().getApi().getHelix().getStreams().getAfterParameter();
+    this.maxByPage =
+        this.customConfigurationProperties
+            .getTwitch().getApi().getHelix().getStreams().getMaxByPage();
     this.authenticationUrl =
         this.customConfigurationProperties.getTwitch().getApi().getHelix().getAuthentication().getUrl();
     this.clientIdKey =
@@ -127,11 +131,12 @@ public class TwitchAPIClient {
     try {
       URI uri = new URI(new StringBuilder()
           .append(twitchGameStreamUrl)
+          .append(maxByPage)
           .append(gameListRequestParameters)
-          .append((Objects.nonNull(cursor)) ? afterParameter : "")
-          .append((Objects.nonNull(cursor)) ? cursor : "").toString());
+          .append(!cursor.isEmpty() ? afterParameter : "")
+          .append(cursor).toString());
 
-      LOG.trace(String.valueOf(uri));
+      LOG.debug(String.valueOf(uri));
 
       HttpHeaders headers = new HttpHeaders();
       headers.add(authorizationKey, tokenType + " " + accessToken);
