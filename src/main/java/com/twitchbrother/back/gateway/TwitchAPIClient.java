@@ -188,6 +188,8 @@ public class TwitchAPIClient {
           throw new TwitchApiAuthenticationException(previousRequest.getBody(),
               waitBeforeNextAuthenticationTry);
         }
+      }else{
+        waitBeforeNextAuthenticationTry = MAX_ATTEMPS_AUTHENTICATION;
       }
 
       accessToken = Objects.requireNonNull(response.getBody()).getAccess_token();
