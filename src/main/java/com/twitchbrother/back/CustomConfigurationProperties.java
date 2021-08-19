@@ -23,34 +23,28 @@ import org.springframework.validation.annotation.Validated;
 @Generated
 @Data
 @Accessors(chain = true)
-@ToString
 @Validated
-@RequiredArgsConstructor
 public class CustomConfigurationProperties {
 
   private Redis redis;
-  private Twitch twitch;
-
   @Generated
   @Data
   @Accessors
-  @ToString
   @Validated
   @ConstructorBinding
-  @RequiredArgsConstructor
   public static class Redis {
 
     private String hostname;
     private Integer port;
   }
 
+  private Twitch twitch;
+
   @Generated
   @Data
   @Accessors
-  @ToString
   @Validated
   @ConstructorBinding
-  @RequiredArgsConstructor
   public static class Twitch {
 
     private TwitchApi api;
@@ -59,10 +53,8 @@ public class CustomConfigurationProperties {
     @Generated
     @Data
     @Accessors
-    @ToString
     @Validated
     @ConstructorBinding
-    @RequiredArgsConstructor
     public static class TwitchApi {
 
       private String allowedOrigin;
@@ -71,10 +63,8 @@ public class CustomConfigurationProperties {
       @Generated
       @Data
       @Accessors
-      @ToString
       @Validated
       @ConstructorBinding
-      @RequiredArgsConstructor
       public static class TwitchHelix {
 
         private TwitchStreams streams;
@@ -83,10 +73,8 @@ public class CustomConfigurationProperties {
         @Generated
         @Data
         @Accessors
-        @ToString
         @Validated
         @ConstructorBinding
-        @RequiredArgsConstructor
         public static class Authentication {
 
           private String url;
@@ -100,10 +88,8 @@ public class CustomConfigurationProperties {
           @Generated
           @Data
           @Accessors
-          @ToString
           @Validated
           @ConstructorBinding
-          @RequiredArgsConstructor
           public static class TwitchConnectionData {
 
             private String key;
@@ -114,10 +100,8 @@ public class CustomConfigurationProperties {
         @Generated
         @Data
         @Accessors
-        @ToString
         @Validated
         @ConstructorBinding
-        @RequiredArgsConstructor
         public static class TwitchStreams {
 
           private String url;
