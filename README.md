@@ -1,5 +1,7 @@
 # TwitchBrotherBack
 
+Production URL: https://twitch-brother-back.herokuapp.com
+
 Java Micro Service with 
 - a Twitch Client to Poll Twitch API as fast as possible / authorized
 - a websocket server pushing the results of the streaming datas to any connected client
