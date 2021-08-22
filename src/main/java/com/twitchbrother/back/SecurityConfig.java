@@ -1,5 +1,6 @@
 package com.twitchbrother.back;
 
+import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(false);
-    config.addAllowedOrigin(customConfigurationProperties.getTwitch().getApi().getAllowedOrigin());
+    config.setAllowedOrigins(Arrays.asList(customConfigurationProperties.getTwitch().getApi().getAllowedOrigin()));
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");
     source.registerCorsConfiguration("/**", config);
