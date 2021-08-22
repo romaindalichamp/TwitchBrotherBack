@@ -18,6 +18,12 @@ public class BackApplication {
   @Value("${app.redis.hostname}")
   private String redisHostname;
 
+  @Value("${app.redis.username}")
+  private String redisUsername;
+
+  @Value("${app.redis.password}")
+  private String redisPassword;
+
   @Value("${app.redis.port}")
   private int redisPort;
 
@@ -33,7 +39,9 @@ public class BackApplication {
   @Bean
   JedisConnectionFactory jedisConnectionFactory() {
     RedisStandaloneConfiguration conf = new RedisStandaloneConfiguration();
+    conf.setUsername(redisUsername);
     conf.setHostName(redisHostname);
+    conf.setHostName(redisPassword);
     conf.setPort(redisPort);
     return new JedisConnectionFactory(conf);
   }

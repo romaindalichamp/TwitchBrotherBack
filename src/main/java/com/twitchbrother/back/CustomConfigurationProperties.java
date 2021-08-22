@@ -34,6 +34,8 @@ public class CustomConfigurationProperties {
   @ConstructorBinding
   public static class Redis {
 
+    private String username;
+    private String password;
     private String hostname;
     private Integer port;
   }
