@@ -41,7 +41,7 @@ public class BackApplication {
     RedisStandaloneConfiguration conf = new RedisStandaloneConfiguration();
     conf.setUsername(redisUsername);
     conf.setHostName(redisHostname);
-    conf.setHostName(redisPassword);
+    conf.setPassword(redisPassword);
     conf.setPort(redisPort);
     return new JedisConnectionFactory(conf);
   }
